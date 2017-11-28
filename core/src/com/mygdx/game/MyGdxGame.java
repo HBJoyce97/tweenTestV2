@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -24,6 +26,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	static final float SCENE_HEIGHT = 720F;
 	AnimatedSprite blades_1, blades_2;
 	BonusSprite bp;
+	private BitmapFont font;
+	private String text;
+	private static GlyphLayout glyphLayout = new GlyphLayout(); // Used to center the font
 
 	OrthographicCamera camera;
 	Viewport view;
@@ -31,6 +36,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	float animationTime;
 
 	public void create() {
+		font = new BitmapFont(Gdx.files.internal("fontTest.fnt"));
+		text = "Test!";
 		camera = new OrthographicCamera();
 		view = new ExtendViewport(800, 600, camera);
 		batch = new SpriteBatch();
@@ -58,6 +65,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		animationTime += Gdx.graphics.getDeltaTime(); // Animation time each frame
 		UniversalResource.getInstance().tweenManager.update(animationTime);
 		batch.begin();
+		glyphLayout.setText(font, text);
+		font.draw(batch, glyphLayout, Gdx.graphics.getWidth()/2 - (glyphLayout.width/2), Gdx.graphics.getHeight()/2 - (glyphLayout.height/2));
 		//update
 		blades_1.update(animationTime);
 		blades_2.update(animationTime);
